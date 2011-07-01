@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <title>tablr</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("form").validate({
+                rules: {
+                    csv: {
+                        required: true
+                    }
+                },
+                messages: {
+                    csv: "This field is required.",
+                },
+                submitHandler: function(form) {
+                    $("div.result").replaceWith('<div class="result loading" />');
+                    $.ajax({
+                        type: "POST",
+                        url: "/convert",
+                        data: $(form).serialize(),
+                        success: function(result){
+                            $("div.result").replaceWith(result);
+                        }
+                    });
+                }
+            });
+            $('textarea').each(function() {
+                $(this).data('default', this.value);
+            }).focusin(function() {
+                if ( this.value == $(this).data('default') ) {
+                    this.value = '';
+                }
+            });
+        });
+    </script>
+    <div class="tablr">
+        <h2>tablr</h2>
+        <p><a href="https://github.com/toddmazierski/tablr">source</a></p>
+        <form method="post">
+            <textarea name="csv" rows="8" cols="80"/>foo,bar,baz&#10;1,2,3</textarea>
+            <p>
+                <input type="submit" value="Convert" />
+            </p>
+        </form>
+        <div class="result">
+        </div>
+    </div>
+</body>
+</html>
