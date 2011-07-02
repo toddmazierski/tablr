@@ -8,3 +8,12 @@ div.loading {
     width: 16px;
     background-image: url('../images/ajax-loader.gif')
 }
+
+#description {
+    font-size: small;
+    font-style: italic;
+}
+
+.error {
+    color:red;
+}

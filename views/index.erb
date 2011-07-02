@@ -10,31 +10,35 @@
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
     <script>
         $(document).ready(function(){
-            $("form").validate({
+            $('form').validate({
                 rules: {
-                    csv: {
+                    input: {
                         required: true
                     }
                 },
                 messages: {
-                    csv: "This field is required.",
+                    input: 'this field is required',
                 },
                 submitHandler: function(form) {
-                    $("div.result").replaceWith('<div class="result loading" />');
+                    $('div.output').replaceWith('<div class="output loading" />');
                     $.ajax({
-                        type: "POST",
-                        url: "/convert",
+                        type: 'POST',
+                        url: '/convert',
                         data: $(form).serialize(),
                         success: function(result){
-                            $("div.result").replaceWith(result);
-                        }
+                            $('div.output').replaceWith(result);
+                        },
+                        error: function(result){
+                            $('div.output').replaceWith('<div class="output error">sorry, an error occurred!</div>');
+                        },
+
                     });
                 }
             });
-            $('textarea').each(function() {
-                $(this).data('default', this.value);
-            }).focusin(function() {
-                if ( this.value == $(this).data('default') ) {
+            var example = 'foo,bar,baz\n1,2,3\n4,5,6\n\n7,8,9';
+            $('textarea[name^="input"]').val(example);
+            $('textarea[name^="input"]').focusin(function() {
+                if ( this.value == example ) {
                     this.value = '';
                 }
             });
@@ -42,14 +46,31 @@
     </script>
     <div class="tablr">
         <h2>tablr</h2>
-        <p><a href="https://github.com/toddmazierski/tablr">source</a></p>
+        <div id="description">
+          <ul>
+            <li>converts comma, tab, or pipe delimited text to an ASCII table</li>
+            <li>replaces blank rows with separators</li>
+            <li><a href="https://github.com/toddmazierski/tablr" target="_blank">source</a></li>
+          </ul>
+        </div>
         <form method="post">
-            <textarea name="csv" rows="8" cols="80"/>foo,bar,baz&#10;1,2,3</textarea>
             <p>
-                <input type="submit" value="Convert" />
+                <input type="radio" name="delimiter" id="comma" value="," checked="checked" />
+                <label for="comma">comma</label>
+                <input type="radio" name="delimiter" id="tab" value="&#09;" />
+                <label for="tab">tab</label>
+                <input type="radio" name="delimiter" id="pipe" value="|" />
+                <label for="pipe">pipe</label>
+                <br />
+                <input type="checkbox" name="headers" id="headers" checked="checked" />
+                <label for="headers">first row is header</label>
+            </p>
+            <textarea name="input" rows="8" cols="80"/></textarea>
+            <p>
+                <button name="convert" type="submit" accesskey="c"><u>c</u>onvert</button>
             </p>
         </form>
-        <div class="result">
+        <div class="output">
         </div>
     </div>
 </body>
