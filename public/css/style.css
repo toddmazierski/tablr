@@ -17,3 +17,7 @@ div.loading {
 .error {
     color:red;
 }
+
+textarea {
+    font-family: monospace;
+}
