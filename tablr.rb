@@ -7,7 +7,7 @@ post '/convert' do
     if row.chomp == ''
       :separator
     else
-      row.chomp.split params[:delimiter]
+      row.chomp.split(params[:delimiter]).collect { |column| column.strip }
     end
   end
   params[:headers] == "on" ? headers = true : headers = false
