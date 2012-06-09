@@ -29,6 +29,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   capistrano
   sinatra
   terminal-table
