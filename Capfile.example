@@ -1,5 +1,7 @@
 # Beware: only known to work on DreamHost shared hosting.
 
+load "deploy"
+
 set :application, "tablr"
 set :rails_env, "production"
 
