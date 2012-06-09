@@ -7,14 +7,18 @@ get "/" do
 end
 
 post "/convert" do
-  rows = params[:input].lines.to_a.collect do |row|
-    if row.chomp == ""
+  # Process the input by removing newlines, whitespace, and replacing empty
+  # lines with separator rows.
+  rows = params[:input].lines.map do |row|
+    row.chomp!
+    if row.empty?
       :separator
     else
-      row.chomp.split(params[:delimiter]).collect { |column| column.strip }
+      row.split(params[:delimiter]).map { |column| column.strip }
     end
   end
-  params[:headers] == "on" ? headers = true : headers = false
+  headers = (params[:headers] == "on")
+  # Generate the table.
   @table = table do
     if headers
       self.headings = rows.first
