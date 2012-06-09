@@ -1,10 +1,14 @@
-get '/' do
+require "rubygems"
+require "bundler/setup"
+Bundler.require
+
+get "/" do
   erb :index
 end
 
-post '/convert' do
+post "/convert" do
   rows = params[:input].lines.to_a.collect do |row|
-    if row.chomp == ''
+    if row.chomp == ""
       :separator
     else
       row.chomp.split(params[:delimiter]).collect { |column| column.strip }
