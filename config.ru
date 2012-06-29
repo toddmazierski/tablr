@@ -1,7 +1,8 @@
-# http://recipes.sinatrarb.com/p/deployment/dreamhost_via_passenger
-require "#{ENV["HOME"]}/.gems/ruby/1.8/gems/rack-1.4.1/lib/rack.rb"
-require "#{ENV["HOME"]}/.gems/ruby/1.8/gems/sinatra-1.3.2/lib/sinatra.rb"
-require "#{ENV["HOME"]}/.gems/ruby/1.8/gems/tilt-1.3.3/lib/tilt.rb"
+# http://chrislaco.com/blog/rails3-dreamhost-and-you/
+ENV["GEM_HOME"]="#{ENV["HOME"]}/.gems"
+ENV["GEM_PATH"]="#{ENV["GEM_HOME"]}:/usr/lib/ruby/gems/1.8"
+require "rubygems"
+Gem.clear_paths
 
 require File.expand_path("./tablr.rb", File.dirname(__FILE__))
 run Sinatra::Application
