@@ -1,1 +1,6 @@
+.bundle
 Capfile
+config/deploy.rb
+log
+vendor/bundle
+vendor/cache
